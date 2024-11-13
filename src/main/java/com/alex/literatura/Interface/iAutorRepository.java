@@ -1,4 +1,4 @@
-package com.alex.literatura.Repository;
+package com.alex.literatura.Interface;
 import com.alex.literatura.Modelos.Autor;
 import org.springframework.data.jpa.repository.JpaRepository;
 

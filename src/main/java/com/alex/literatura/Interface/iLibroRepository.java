@@ -1,4 +1,4 @@
-package com.alex.literatura.Repository;
+package com.alex.literatura.Interface;
 import com.alex.literatura.Modelos.Libro;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,7 +13,10 @@ public interface iLibroRepository extends JpaRepository<Libro, Long> {
 
     List<Libro> findByIdioma(String idioma);
 
+
+
     @Query("SELECT l FROM Libro l ORDER BY l.cantidadDescargas DESC LIMIT 10")
     List<Libro> findTop10ByTituloByCantidadDescargas();
+
 
 }
