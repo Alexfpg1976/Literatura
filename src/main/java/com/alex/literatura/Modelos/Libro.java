@@ -148,13 +148,16 @@ public class Libro {
     @Override
     public String toString() {
         return
-                "  \nid=" + id +
-                        "  \nLibro id=" + libroId +
-                        ", \ntitulo='" + titulo + '\'' +
-                        ", \nauthors=" + (autor != null ? autor.getNombre() : "N/A")+
-                        ", \ngenero=" + genero +
-                        ", \nidioma=" + idioma +
-                        ", \nimagen=" + imagen +
-                        ", \ncantidadDescargas=" + cantidadDescargas;
+                "\n***********************  LIBRO  ***********************" +
+
+                        "  \nID = " + libroId +
+                        ", \nTITULO = '" + titulo + '\'' +
+                        ", \nAUTOR = " + (autor != null ? autor.getNombre() : "N/A")+
+                        ", \nGENERO = " + genero +
+                        ", \nIDIOMA = " + idioma +
+                        ", \nIMAGEN = " + imagen +
+                        ", \nCANTIDAD DE DESCARGAS = " + cantidadDescargas +
+
+                        "\n******************************************************" ;
     }
 }

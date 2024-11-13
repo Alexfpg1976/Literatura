@@ -9,11 +9,8 @@ public class Autor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String nombre;
-
     private Integer cumpleanios;
-
     private Integer fechaFallecimiento;
 
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -57,8 +54,12 @@ public class Autor {
     @Override
     public String toString() {
         return
-                "nombre='" + nombre + '\'' +
-                        ", cumpleanios=" + cumpleanios +
-                        ", fechaFallecimiento=" + fechaFallecimiento;
+                "\n***********************  AUTOR  ***********************" +
+
+                        "\nNOMBRE = '" + nombre + '\'' +
+                        "\nFECHA DE NACIMIENTO = " + cumpleanios +
+                        "\nFECHA DE FALLECIDO =" + fechaFallecimiento +
+
+                        "\n*******************************************************" ;
     }
 }

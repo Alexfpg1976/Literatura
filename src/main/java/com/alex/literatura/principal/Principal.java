@@ -1,4 +1,4 @@
-package com.alex.literatura.principal;
+package com.alex.literatura.Principal;
 import com.alex.literatura.config.ConsumoApi;
 import com.alex.literatura.config.ConvertirDatos;
 import com.alex.literatura.Modelos.Autor;
@@ -34,25 +34,21 @@ public class Principal {
             var menu = """
                     
                     |***************************************************|
-                    |*****       BIENVENIDO A LIBRERIA GOOD       ******|
+                    |*****   BIENVENIDO A LA BIBLIOTECA VIRTUAL   ******|
                     |***************************************************|
                     
-                    1 - Agregar Libro por Nombre
-                    2 - Libros buscados
-                    3 - Buscar libro por Nombre
-                    4 - Buscar todos los Autores de libros buscados
-                    5 - Buscar Autores por año
-                    6 - Buscar Libros por Idioma
-                    7 - Top 10 Libros mas Descargados
-                    8 - Buscar Autor por Nombre
-                   
+                    1 - BUSCAR LIBRO POR NOMBRE
+                    2 - LISTAR LIBROS BUSCADOS
+                    3 - LISTAR AUTORES BUSCADOS
+                    4 - BUSCAR AUTORES POR AÑO
+                    5 - BUSCAR LIBROS POR IDIOMA
+                    6 - TOP 10 DE LOS LIBROS MAS DESCARGADOS
                     
-               
-                    0 - Salir
+                                   
+                    0 - SALIR
                     
-                    |***************************************************|
-                    |*****            INGRESE UNA OPCIÓN          ******|
-                    |***************************************************|
+                    INGRESE UNA OPCIÓN :
+                    
                     """;
 
             try {
@@ -62,7 +58,7 @@ public class Principal {
             } catch (InputMismatchException e) {
 
                 System.out.println("|****************************************|");
-                System.out.println("|  Por favor, ingrese un número válido.  |");
+                System.out.println("|  POR FAVOR, INGRESA UN NUMERO VALIDO.  |");
                 System.out.println("|****************************************|\n");
                 sc.nextLine();
                 continue;
@@ -78,34 +74,31 @@ public class Principal {
                     librosBuscados();
                     break;
                 case 3:
-                    buscarLibroPorNombre();
+                    Autoresbuscados();
                     break;
                 case 4:
-                    BuscarAutores();
-                    break;
-                case 5:
                     buscarAutoresPorAnio();
                     break;
-                case 6:
+                case 5:
                     buscarLibrosPorIdioma();
                     break;
-                case 7:
+                case 6:
                     top10LibrosMasDescargados();
                     break;
-                case 8:
-                    buscarAutorPorNombre();
-                    break;
+
+
+
                 case 0:
                     opcion = 0;
                     System.out.println("|********************************|");
-                    System.out.println("|    Aplicación cerrada. Bye!    |");
+                    System.out.println("|  FINALIZANDO APLICACION!.....  |");
                     System.out.println("|********************************|\n");
                     break;
                 default:
                     System.out.println("|*********************|");
-                    System.out.println("|  Opción Incorrecta. |");
+                    System.out.println("|  OPCION INCORRECTA. |");
                     System.out.println("|*********************|\n");
-                    System.out.println("Intente con una nueva Opción");
+                    System.out.println("INTENTA NUEVAMENTE");
                     consumo();
                     break;
             }
@@ -113,7 +106,7 @@ public class Principal {
     }
 
     private Libro getDatosLibro(){
-        System.out.println("Ingrese el nombre del libro: ");
+        System.out.println("INGRESA EL NOMBRE DEL LIBRO QUE DESEAS BUSCAR Y ANEXAR A LA BASE DE DATOS: ");
         var nombreLibro = sc.nextLine().toLowerCase();
         var json = consumoApi.obtenerDatos(API_BASE + nombreLibro.replace(" ", "%20"));
         //System.out.println("JSON INICIAL: " + json);
@@ -123,7 +116,7 @@ public class Principal {
             DatosLibro primerLibro = datos.getResultadoLibros().get(0); // Obtener el primer libro de la lista
             return new Libro(primerLibro);
         } else {
-            System.out.println("No se encontraron resultados.");
+            System.out.println("NO SE ENCONTRARON RESULTADOS.");
             return null;
         }
     }
@@ -133,7 +126,7 @@ public class Principal {
         Libro libro = getDatosLibro();
 
         if (libro == null){
-            System.out.println("Libro no encontrado. el valor es null");
+            System.out.println("NO SE ENCONTRO EL LIBRO DESEADO");
             return;
         }
 
@@ -141,13 +134,13 @@ public class Principal {
         try{
             boolean libroExists = libroRepository.existsByTitulo(libro.getTitulo());
             if (libroExists){
-                System.out.println("El libro ya existe en la base de datos!");
+                System.out.println("EL LIBRO YA EXISTE EN LA BASE DE DATOS!");
             }else {
                 libroRepository.save(libro);
                 System.out.println(libro.toString());
             }
         }catch (InvalidDataAccessApiUsageException e){
-            System.out.println("No se puede persisitir el libro buscado!");
+            System.out.println("NO SE PUEDE PERSISTIR EL LIBRO BUSCADO!");
         }
     }
 
@@ -156,40 +149,22 @@ public class Principal {
         //datosLibro.forEach(System.out::println);
         List<Libro> libros = libroRepository.findAll();
         if (libros.isEmpty()) {
-            System.out.println("No se encontraron libros en la base de datos.");
+            System.out.println("NO SE ENCONTRARON LIBROS EN LA BASE DE DATOS.");
         } else {
-            System.out.println("Libros encontrados en la base de datos:");
+            System.out.println("LIBROS ENCONTRADOS EN LA BASE DE DATOS :");
             for (Libro libro : libros) {
                 System.out.println(libro.toString());
             }
         }
     }
-
-    private void buscarLibroPorNombre() {
-        System.out.println("Ingrese Titulo libro que quiere buscar: ");
-        var titulo = sc.nextLine();
-        Libro libroBuscado = libroRepository.findByTituloContainsIgnoreCase(titulo);
-        if (libroBuscado != null) {
-            System.out.println("El libro buscado fue: " + libroBuscado);
-        } else {
-            System.out.println("El libro con el titulo '" + titulo + "' no se encontró.");
-        }
-    }
-
-    private  void BuscarAutores(){
-        //LISTAR AUTORES DE LIBROS BUSCADOS
+    private void Autoresbuscados(){
         List<Autor> autores = autorRepository.findAll();
-
         if (autores.isEmpty()) {
-            System.out.println("No se encontraron libros en la base de datos. \n");
+            System.out.println("NO SE ENCONTRARON AUTORES EN LA BASE DE DATOS.");
         } else {
-            System.out.println("Libros encontrados en la base de datos: \n");
-            Set<String> autoresUnicos = new HashSet<>();
+            System.out.println("ESTOS SON LOS AUTORES ENCONTRADOS EN LA BASE DE DATOS :");
             for (Autor autor : autores) {
-                // add() retorna true si el nombre no estaba presente y se añade correctamente
-                if (autoresUnicos.add(autor.getNombre())){
-                    System.out.println(autor.getNombre()+'\n');
-                }
+                System.out.println(autor.toString());
             }
         }
     }
@@ -256,16 +231,4 @@ public class Principal {
         }
     }
 
-
-    private void buscarAutorPorNombre() {
-        System.out.println("Ingrese nombre del escritor que quiere buscar: ");
-        var escritor = sc.nextLine();
-        Optional<Autor> escritorBuscado = autorRepository.findFirstByNombreContainsIgnoreCase(escritor);
-        if (escritorBuscado != null) {
-            System.out.println("\nEl escritor buscado fue: " + escritorBuscado.get().getNombre());
-
-        } else {
-            System.out.println("\nEl escritor con el titulo '" + escritor + "' no se encontró.");
-        }
-    }
 }
