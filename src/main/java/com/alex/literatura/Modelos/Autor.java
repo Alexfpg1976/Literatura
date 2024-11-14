@@ -13,11 +13,12 @@ public class Autor {
     private Integer cumpleanios;
     private Integer fechaFallecimiento;
 
-    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    //@Transient
+
+    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
+
+
     private List<Libro> libros;
-
-
     public Autor() {
     }
 
@@ -28,20 +29,17 @@ public class Autor {
     public String getNombre() {
         return nombre;
     }
-
     public Integer getCumpleanios() {
         return cumpleanios;
     }
-
     public Integer getFechaFallecimiento() {
         return fechaFallecimiento;
     }
-
     public List<Libro> getLibros() {
         return libros;
     }
 
-    public void setLibros(List<Libro> libros) {
+    public void getLibros(List<Libro> libros) {
         this.libros = libros;
     }
 
@@ -49,6 +47,8 @@ public class Autor {
         this.nombre = autor.nombre();
         this.cumpleanios = autor.cumpleanios();
         this.fechaFallecimiento = autor.fechaFallecimiento();
+        this.libros = getLibros();
+
     }
 
     @Override
@@ -59,8 +59,7 @@ public class Autor {
                         "\nNOMBRE = '" + nombre + '\'' +
                         "\nFECHA DE NACIMIENTO = " + cumpleanios +
                         "\nFECHA DE FALLECIDO =" + fechaFallecimiento +
-
-                        "\n*******************************************************" ;
+                        "\nLIBROS =" + libros;
 
 
     }

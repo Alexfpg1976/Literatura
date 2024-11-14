@@ -23,14 +23,15 @@ public class Principal {
     private List<Libro> datosLibro = new ArrayList<>();
     private iLibroRepository libroRepository;
     private iAutorRepository autorRepository;
+
     public Principal(iLibroRepository libroRepository, iAutorRepository autorRepository) {
         this.libroRepository = libroRepository;
         this.autorRepository = autorRepository;
     }
 
-    public void consumo(){
+    public void consumo() {
         var opcion = -1;
-        while (opcion != 0){
+        while (opcion != 0) {
             var menu = """
                     
                     |***************************************************|
@@ -44,7 +45,8 @@ public class Principal {
                     5 - BUSCAR LIBROS POR IDIOMA
                     6 - TOP 10 DE LOS LIBROS MAS DESCARGADOS
                     
-                                   
+                    
+                    
                     0 - SALIR
                     
                     INGRESE UNA OPCIÓN :
@@ -65,8 +67,7 @@ public class Principal {
             }
 
 
-
-            switch (opcion){
+            switch (opcion) {
                 case 1:
                     buscarLibroEnLaWeb();
                     break;
@@ -88,6 +89,8 @@ public class Principal {
 
 
 
+
+
                 case 0:
                     opcion = 0;
                     System.out.println("|********************************|");
@@ -105,7 +108,7 @@ public class Principal {
         }
     }
 
-    private Libro getDatosLibro(){
+    private Libro getDatosLibro() {
         System.out.println("INGRESA EL NOMBRE DEL LIBRO QUE DESEAS BUSCAR Y ANEXAR A LA BASE DE DATOS: ");
         var nombreLibro = sc.nextLine().toLowerCase();
         var json = consumoApi.obtenerDatos(API_BASE + nombreLibro.replace(" ", "%20"));
@@ -125,27 +128,27 @@ public class Principal {
     private void buscarLibroEnLaWeb() {
         Libro libro = getDatosLibro();
 
-        if (libro == null){
+        if (libro == null) {
             System.out.println("NO SE ENCONTRO EL LIBRO DESEADO");
             return;
         }
 
         //datosLibro.add(libro);
-        try{
+        try {
             boolean libroExists = libroRepository.existsByTitulo(libro.getTitulo());
-            if (libroExists){
+            if (libroExists) {
                 System.out.println("EL LIBRO YA EXISTE EN LA BASE DE DATOS!");
-            }else {
+            } else {
                 libroRepository.save(libro);
                 System.out.println(libro.toString());
             }
-        }catch (InvalidDataAccessApiUsageException e){
+        } catch (InvalidDataAccessApiUsageException e) {
             System.out.println("NO SE PUEDE PERSISTIR EL LIBRO BUSCADO!");
         }
     }
 
     @Transactional(readOnly = true)
-    private void librosBuscados(){
+    private void librosBuscados() {
         //datosLibro.forEach(System.out::println);
         List<Libro> libros = libroRepository.findAll();
         if (libros.isEmpty()) {
@@ -157,19 +160,23 @@ public class Principal {
             }
         }
     }
-    private void Autoresbuscados(){
+    @Transactional(readOnly = true)
+    private void Autoresbuscados() {
         List<Autor> autores = autorRepository.findAll();
+
         if (autores.isEmpty()) {
             System.out.println("NO SE ENCONTRARON AUTORES EN LA BASE DE DATOS.");
         } else {
             System.out.println("ESTOS SON LOS AUTORES ENCONTRADOS EN LA BASE DE DATOS :");
             for (Autor autor : autores) {
                 System.out.println(autor.toString());
+
             }
         }
     }
 
-    private void  buscarLibrosPorIdioma(){
+
+    private void buscarLibrosPorIdioma() {
         System.out.println("INGRESE EL IDIOMA QUE QUIERE BUSCAR : \n");
         System.out.println("|**************** IDIOMAS  *************|");
         System.out.println("|  Opción - es : Libros en ESPAÑOL.     |");
@@ -219,8 +226,8 @@ public class Principal {
         }
     }
 
-    private void top10LibrosMasDescargados(){
-        List<Libro> top10Libros = libroRepository.findTop10ByTituloByCantidadDescargas();
+        private void top10LibrosMasDescargados(){
+       List<Libro> top10Libros = libroRepository.findTop10ByTituloByCantidadDescargas();
         if (!top10Libros.isEmpty()){
             int index = 1;
             for (Libro libro: top10Libros){
@@ -228,9 +235,8 @@ public class Principal {
                         index, libro.getTitulo(), libro.getAutores().getNombre(), libro.getCantidadDescargas());
                 index++;
             }
-            //top10Libros.forEach(l-> System.out.printf("Libro: %s Autor: %s Descargas: %s\n",
-            //       l.getTitulo(), l.getAutores().getNombre(), l.getCantidadDescargas()));
         }
     }
 
 }
+
