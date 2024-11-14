@@ -53,7 +53,7 @@ public class Autor {
 
     @Override
     public String toString() {
-        return
+       return
                 "\n***********************  AUTOR  ***********************" +
 
                         "\nNOMBRE = '" + nombre + '\'' +
@@ -61,5 +61,7 @@ public class Autor {
                         "\nFECHA DE FALLECIDO =" + fechaFallecimiento +
 
                         "\n*******************************************************" ;
+
+
     }
 }

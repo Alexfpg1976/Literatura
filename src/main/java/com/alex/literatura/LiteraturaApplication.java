@@ -1,5 +1,5 @@
 package com.alex.literatura;
-import com.alex.literatura.principal.Principal        ;
+import com.alex.literatura.principal.*;
 import com.alex.literatura.Interface.iAutorRepository;
 import com.alex.literatura.Interface.iLibroRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.alex.literatura.Principal;
+package com.alex.literatura.principal;
 import com.alex.literatura.config.ConsumoApi;
 import com.alex.literatura.config.ConvertirDatos;
 import com.alex.literatura.Modelos.Autor;
@@ -38,8 +38,8 @@ public class Principal {
                     |***************************************************|
                     
                     1 - BUSCAR LIBRO POR NOMBRE
-                    2 - LISTAR LIBROS BUSCADOS
-                    3 - LISTAR AUTORES BUSCADOS
+                    2 - LISTAR LIBROS REGISTRADOS
+                    3 - LISTAR AUTORES REGISTRADOS
                     4 - BUSCAR AUTORES POR AÑO
                     5 - BUSCAR LIBROS POR IDIOMA
                     6 - TOP 10 DE LOS LIBROS MAS DESCARGADOS
@@ -170,19 +170,21 @@ public class Principal {
     }
 
     private void  buscarLibrosPorIdioma(){
-        System.out.println("Ingrese Idioma en el que quiere buscar: \n");
-        System.out.println("|***********************************|");
-        System.out.println("|  Opción - es : Libros en español. |");
-        System.out.println("|  Opción - en : Libros en ingles.  |");
-        System.out.println("|***********************************|\n");
+        System.out.println("INGRESE EL IDIOMA QUE QUIERE BUSCAR : \n");
+        System.out.println("|**************** IDIOMAS  *************|");
+        System.out.println("|  Opción - es : Libros en ESPAÑOL.     |");
+        System.out.println("|  Opción - en : Libros en INGLES.      |");
+        System.out.println("|  Opción - fr : Libros en FRANCES.     |");
+        System.out.println("|  Opción - pt : Libros en PORTUGUES.   |");
+        System.out.println("|***************************************|\n");
 
         var idioma = sc.nextLine();
         List<Libro> librosPorIdioma = libroRepository.findByIdioma(idioma);
 
         if (librosPorIdioma.isEmpty()) {
-            System.out.println("No se encontraron libros en la base de datos.");
+            System.out.println("NO SE ENCONTRARON LIBROS CON ESTE IDIOMA EN LA BASE DE DATOS.");
         } else {
-            System.out.println("Libros segun idioma encontrados en la base de datos:");
+            System.out.println("LIBROS ENCONTRADOS EN LA BASE DE DATOS CON EL IDIOMA ESCOGIDO:");
             for (Libro libro : librosPorIdioma) {
                 System.out.println(libro.toString());
             }
@@ -193,23 +195,23 @@ public class Principal {
     private void buscarAutoresPorAnio() {
 //        //BUSCAR AUTORES POR ANIO
 
-        System.out.println("Indica el año para consultar que autores estan vivos: \n");
+        System.out.println("INDICA EL AÑO PARA CONSULTAR AUTORES DE ESTA EPOCA : \n");
         var anioBuscado = sc.nextInt();
         sc.nextLine();
 
         List<Autor> autoresVivos = autorRepository.findByCumpleaniosLessThanOrFechaFallecimientoGreaterThanEqual(anioBuscado, anioBuscado);
 
         if (autoresVivos.isEmpty()) {
-            System.out.println("No se encontraron autores que estuvieran vivos en el año " + anioBuscado + ".");
+            System.out.println("NO SE ENCONTRARON AUTORES DE ESTA EPOCA " + anioBuscado + ".");
         } else {
-            System.out.println("Los autores que estaban vivos en el año " + anioBuscado + " son:");
+            System.out.println("LOS AUTORES QUE CORRESPONDEN A ESTA EPOCA SON : " + anioBuscado + " son:");
             Set<String> autoresUnicos = new HashSet<>();
 
             for (Autor autor : autoresVivos) {
                 if (autor.getCumpleanios() != null && autor.getFechaFallecimiento() != null) {
                     if (autor.getCumpleanios() <= anioBuscado && autor.getFechaFallecimiento() >= anioBuscado) {
                         if (autoresUnicos.add(autor.getNombre())) {
-                            System.out.println("Autor: " + autor.getNombre());
+                            System.out.println("AUTOR: " + autor.getNombre());
                         }
                     }
                 }
