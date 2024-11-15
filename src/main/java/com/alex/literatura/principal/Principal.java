@@ -218,7 +218,9 @@ public class Principal {
                 if (autor.getCumpleanios() != null && autor.getFechaFallecimiento() != null) {
                     if (autor.getCumpleanios() <= anioBuscado && autor.getFechaFallecimiento() >= anioBuscado) {
                         if (autoresUnicos.add(autor.getNombre())) {
-                            System.out.println("AUTOR: " + autor.getNombre());
+                            System.out.println("\n***************** AUTORES ENCONTRADOS ***********************" +
+                                               "\nNOMBRE = '" + autor.getNombre() +
+                                               "\nFECHA DE NACIMIENTO = " + autor.getCumpleanios());
                         }
                     }
                 }
@@ -228,10 +230,12 @@ public class Principal {
 
         private void top10LibrosMasDescargados(){
        List<Libro> top10Libros = libroRepository.findTop10ByTituloByCantidadDescargas();
+        System.out.println("\n************************************  TOP 10 DE LOS LIBROS MAS DESCARGADOS  **************************************");
+        System.out.println("\n                                                                                                                  ");
         if (!top10Libros.isEmpty()){
             int index = 1;
             for (Libro libro: top10Libros){
-                System.out.printf("Libro %d: %s Autor: %s Descargas: %d\n",
+                System.out.printf("Libro %d : %s Autor : %s Descargas : %d\n",
                         index, libro.getTitulo(), libro.getAutores().getNombre(), libro.getCantidadDescargas());
                 index++;
             }
